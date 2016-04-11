@@ -15,7 +15,8 @@ class MySoundex(object):
         pass
 
     def encode(self, word):
-        return self.__zero_pad(self.__upper_front(self.__head(word)) + self.__tail(self.__encoded_digits(word)))
+        return self.__zero_pad(
+            self.__remove_not_a_digit(self.__upper_front(self.__head(word)) + self.__tail(self.__encoded_digits(word))))
 
     def encoded_digit(self, letter):
         lower_letter = self.__lower(letter)
@@ -23,6 +24,13 @@ class MySoundex(object):
             return self.encodingsMap[lower_letter]
         else:
             return self.not_a_digit
+
+    def __remove_not_a_digit(self, word):
+        ret = ""
+        for letter in word:
+            if letter != self.not_a_digit:
+                ret += letter
+        return ret
 
     def __encoded_digits(self, word):
         encoding = self.__encode_head(word)
@@ -39,6 +47,8 @@ class MySoundex(object):
         for letter_index in range(1, word_length):
             if self.__is_complete(encoding) is False:
                 encoding = self.__encode_letter(encoding, word[letter_index], word[letter_index - 1])
+            else:
+                return self.not_a_digit
 
         return encoding
 

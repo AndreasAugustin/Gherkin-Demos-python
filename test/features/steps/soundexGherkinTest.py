@@ -50,7 +50,7 @@ def step_impl(context, length):
     :type context: behave.runner.Context
     """
     print("then_the_encoded_length_is_equal_to ", length, "\n")
-    assert_equals(length, len(context.encoded))
+    assert_equals(int(length), len(context.encoded))
 
 
 @when('I enter the lower case word "([^\"]*)"')
